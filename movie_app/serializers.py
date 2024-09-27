@@ -32,3 +32,17 @@ class MovieSerializer(serializers.ModelSerializer):
 
 
 
+class DirectorValidateSerializer(serializers.Serializer):
+    name = serializers.CharField()
+
+class MoviesValidateSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=255)
+    description = serializers.CharField()
+    duration = serializers.DurationField()
+    director = serializers.BooleanField()
+    reviews = serializers.ListField()
+    ave_rating = serializers.IntegerField(min_value=1, max_value=10000)
+
+class ReviewsValidateSerializer(serializers.Serializer):
+    text = serializers.CharField(required=False, default='N22t')
+    stars = serializers.FloatField(default=0)
