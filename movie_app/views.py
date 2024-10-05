@@ -1,13 +1,18 @@
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Director, Movie, Review
 from .serializers import (DirectorSerializer, MovieSerializer, ReviewSerializer, DirectorValidateSerializer,
                           MoviesValidateSerializer, ReviewsValidateSerializer)
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from .serializers import DirectorSerializer
+from rest_framework.pagination import PageNumberPagination
 
-
-
+class DirectorListAPIview(ListCreateAPIView):
+    serializer_class = DirectorSerializer
+    queryset = Director.objects.all()
+    pagination_class = PageNumberPagination
 
 
 @api_view(['GET', 'POST'])
@@ -28,6 +33,10 @@ def director_list_api_view(request):
         )
         directors.save()
 
+class DirectorDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = DirectorSerializer
+    queryset = Director.objects.all()
+    lookup_field = 'id'
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
@@ -51,6 +60,10 @@ def director_detail_api_view(request, id):
         director.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class MovieListAPIview(ListCreateAPIView):
+    serializer_class = MovieSerializer
+    queryset = Movie.objects.all()
+    pagination_class = PageNumberPagination
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
@@ -80,7 +93,10 @@ def movie_list_api_view(request):
         )
         movies.save()
 
-
+class MovieDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = MovieSerializer
+    queryset = Movie.objects.all()
+    lookup_field = 'id'
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
@@ -109,7 +125,10 @@ def movie_detail_api_view(request, id):
         moviess.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+class ReviewListAPIview(ListCreateAPIView):
+    serializer_class = ReviewSerializer
+    queryset = Review.objects.all()
+    pagination_class = PageNumberPagination
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
@@ -130,6 +149,11 @@ def review_list_api_view(request):
             stars=stars,
         )
         reviews.save()
+
+class ReviewDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = ReviewSerializer
+    queryset = Review.objects.all()
+    lookup_field = 'id'
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
@@ -153,7 +177,3 @@ def review_detail_api_view(request, id):
     elif request.method == 'DELETE':
         reviewss.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
-

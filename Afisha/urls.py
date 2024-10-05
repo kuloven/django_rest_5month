@@ -28,5 +28,11 @@ urlpatterns = [
     path('api/v1/movies/<int:id>/', views.movie_detail_api_view),
     path('api/v1/reviews/', views.review_list_api_view),
     path('api/v1/reviews/<int:id>/', views.review_detail_api_view),
-    path('api/v1/users/', include('users.urls'))
+    path('api/v1/users/', include('users.urls')),
+    path('directors/', views.DirectorListAPIview.as_view()),
+    path('movies/', views.MovieListAPIview.as_view()),
+    path('reviews/', views.ReviewListAPIview.as_view()),
+    path('directors/<int:id>/', views.DirectorDetailAPIView.as_view()),
+    path('movies/<int:id>/', views.MovieDetailAPIView.as_view()),
+    path('reviews/<int:id>/', views.ReviewDetailAPIView.as_view()),
 ]
